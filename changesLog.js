@@ -26,4 +26,9 @@ console.log(`Duplicate issues (in different groups) set to: ${params.duplicate}.
 if (params.filters !== undefined) console.log(`Filters: ${params.filters}`);
 if (params.groups !== undefined) console.log(`Groups: ${params.groups}`);
 
-getIssuesByMilestone(params);
+printIssuesFromMilestone()
+
+async function printIssuesFromMilestone() {
+  const issues = await getIssuesByMilestone(params);
+  console.log('Issues count', issues.length);
+}
