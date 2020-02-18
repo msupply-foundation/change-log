@@ -2,12 +2,30 @@ const { Octokit } = require("@octokit/rest");
 require('dotenv').config();
 
 module.exports.getIssuesByMilestone = async function  (params) {
-    const { milestone, duplicate, filters, groups } = params;
+    const { milestone, filter, state } = params;
     const { owner, repo } = params;
 
     const octokit = new Octokit({
       auth: process.env.WEBHOOK_SECRET
     });
+
+    if(!owner) {
+      if(process.env.OWNER) owner = process.env.OWNER;      
+    }
+
+    if(!repo){
+      if(process.env.OWNER) repo = process.env.REPO;
+    }
+
+    if(!owner || !repo){
+      console.log('Missing repo and owner to user. Please add correct environment variables to file .env!')
+      return [];    
+    }
+    if(!octokit.auth) {
+      console.log('Missing authentication token. Please add correct environment variable to file .env!');
+      return [];
+    }
+
     console.log(params);
 
     await octokit.registerEndpoints({
@@ -18,12 +36,16 @@ module.exports.getIssuesByMilestone = async function  (params) {
         }
       }
     });
+
     const options = octokit.issues.listForRepo.endpoint.merge({
-      owner: owner ? owner : process.env.OWNER,
-      repo: repo ? repo : process.env.REPO,
+      owner,
+      repo,
       milestone,
-      state: 'all'
+      state,
+      labels: filter
     });
 
-    return await octokit.paginate(options);
+    const issuesAndPRs = await octokit.paginate(options);
+    const onlyIssues = issuesAndPRs.filter( issue => (!issue.pull_request))
+    return onlyIssues;
 }
