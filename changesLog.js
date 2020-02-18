@@ -29,6 +29,26 @@ if (params.groups !== undefined) console.log(`Groups: ${params.groups}`);
 printIssuesFromMilestone()
 
 async function printIssuesFromMilestone() {
+  let opened = 0;
+  let closed = 0;
   const issues = await getIssuesByMilestone(params);
-  console.log('Issues count', issues.length);
+  console.log(issues.length);
+  const issuesWithPR = issues.filter( issue => (issue.pull_request))
+  console.log('with PR', issuesWithPR.length);
+  issues.forEach( issue => {
+    if (issue.pull_request) {
+      console.log('\n\nIssue no: ', issue.number);
+      console.log('Status', issue.state);
+      if(issue.state === 'open') opened++;
+      if(issue.state === 'closed') closed++;
+
+    } else {
+      if(issue.state === 'closed' && issue.pull_request) {
+        let { labels } = issue;
+        labels.forEach( label => console.log(label.name));
+      }
+    }
+  });
+  console.log('opened', opened);
+  console.log('closed', closed);
 }

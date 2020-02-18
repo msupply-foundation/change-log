@@ -21,7 +21,8 @@ module.exports.getIssuesByMilestone = async function  (params) {
     const options = octokit.issues.listForRepo.endpoint.merge({
       owner: owner ? owner : process.env.OWNER,
       repo: repo ? repo : process.env.REPO,
-      milestone
+      milestone,
+      state: 'all'
     });
 
     return await octokit.paginate(options);
