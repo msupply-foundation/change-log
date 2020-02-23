@@ -2,7 +2,7 @@
   "name": "changes-log",
   "version": "1.0.0",
   "description": "Creates change log from base Github API with filtered Issues",
-  "main": "changeslog.js",
+  "main": "changesLog.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -1,18 +1,23 @@
+
+let issuesNumbersIncluded = [];
+
+function checkForDuplication(issue, duplicateIssues) {
+  if(duplicateIssues === true) return `\n- ${issue.title} [${issue.number}]`;
+
+  const duplicate = issuesNumbersIncluded.some(numberIncluded => (numberIncluded === issue.number));
+  if (!duplicate) {
+    issuesNumbersIncluded.push(issue.number);
+    return `\n- ${issue.title} [${issue.number}]`;
+  }
+}
+
 module.exports.generateChangesLog = function (groupIssues, {duplicateIssues, milestone}) {
   let changesLog = `# Changes Log for Milestone ${milestone}\n\n`;
-  let issuesNumbersIncluded = [];
 
-  const checkForDuplication = function (issue,issuesNumbersIncluded, callback) {
-    const existingIssue = issuesNumbersIncluded.some(numberIncluded => (numberIncluded === issue.number));
-    if (!existingIssue) {
-      issuesNumbersIncluded.push(issueNumber);
-      callback(issue);
-    }
-  }
+  groupIssues.forEach(group => {
+    const { forCustomer, noCustomer } = group.issues;
 
-  groupIssues.forEach(({key, issues, customer}) => {
-    if (customer) changesLog += `Changes required for ${customer}`;
-    switch(key) {
+    switch(group.key) {
       case 'Feature: new':
         changesLog += `\n\n## New Features`;
         break;
@@ -23,12 +28,15 @@ module.exports.generateChangesLog = function (groupIssues, {duplicateIssues, mil
         changesLog += `\n\n## Bug fixes`;
         break;
     }
-    issues.forEach(issue => {
-      changesLog += (duplicateIssues) ? `\n- ${issue.title} [${issue.number}]` :
-      checkForDuplication(issue.number,issuesNumbersIncluded), (issue => {
-        changesLog += `\n- ${issue.title} [${issue.number}]`
-      });
-    });
+    if (group.customer){
+      changesLog += `\n\n### For customer: ${group.customer}`;
+      forCustomer.forEach(issue=> changesLog += checkForDuplication(issue, duplicateIssues));
+    }
+    if (group.customer && noCustomer.length > 0 ){
+      changesLog += '\n--------\n### For all customers:';
+    }
+    noCustomer.forEach(issue => changesLog += checkForDuplication(issue, duplicateIssues));
+    changesLog += '\n--------\n';
   });
   return changesLog;
 }

@@ -1,6 +1,6 @@
 const { prefixes } = require('../constants');
 
-async function getIssuesByMilestone (octokit, params) {
+async function fetchIssuesInMilestoneByFilters (octokit, params) {
     const { customer, includeIssueForAll } = params;
 
     const filterIssuesForCustomer = function (issues) {
@@ -33,14 +33,14 @@ async function getIssuesByMilestone (octokit, params) {
 
 async function fetchIssuesByFilter(octokit, params, group){
   params.filter = group;
-  return await getIssuesByMilestone(octokit, params);
+  return await fetchIssuesInMilestoneByFilters(octokit, params);
 }
 
-async function fetchIssuesUsingParams(octokit, params, groupedIssues) {
+async function fetchIssuesUsingParams(octokit, params) {
   const allIssues = [];
   allIssues.push({
     customer: params.customer,
-    issues: await getIssuesByMilestone(octokit, params)
+    issues: await fetchIssuesInMilestoneByFilters(octokit, params)
   });
   return allIssues;
 }
@@ -57,16 +57,21 @@ async function asyncForEach (array, octokit, params, callback) {
   return groupedIssues;
 }
 
-module.exports.fetchIssuesInMilestone = async function (octokit, params, groupedIssues, filters) {
-  groupedIssues = (!filters) ? await fetchIssuesUsingParams(octokit, params, groupedIssues)
+module.exports.fetchIssuesInMilestone = async function (octokit, params, filters) {
+  const issues = (!filters) ? await fetchIssuesUsingParams(octokit, params)
    : await asyncForEach(filters, octokit, params, fetchIssuesByFilter);
 
-  groupedIssues.forEach(group => {
+   issues.forEach(group => {
     const { forCustomer, noCustomer } = group.issues;
-    console.log('\nIssues type:', group.key);
-    console.log('No costumer:', noCustomer.length);
-    console.log('For', group.customer, ':', forCustomer.length);
+    (group.key) ? console.log('\nIssues type:', group.key) : console.log('\n');
+    if(group.customer){
+      console.log('No costumer:', noCustomer.length);
+      console.log('For', group.customer, ':', forCustomer.length);
+    } 
+    else {
+      console.log('Issues count:', noCustomer.length);
+    }
   });
 
-  return true; // TODO: Check for Successful fetch!
+  return issues;
 }

@@ -35,7 +35,9 @@ const params = {
 async function fetchIssues() {
   console.log(`\n\nFetching issues in Milestone ${params.milestone}...\n`);
   if(filters) {
-    if(await fetchIssuesInMilestone(octokit, params, groupedIssues, filters)) {
+    groupedIssues = await fetchIssuesInMilestone(octokit, params, filters);
+    
+    if (groupedIssues.length > 0) {
       console.log(`\nFinished fetching issues by filters in Milestone ${params.milestone}!\n`);
       console.log(`Duplicate issues (in different groups) set to: ${params.duplicateIssues}.\n`);
       console.log(`Started creating Changes log for issues based on Groups: ${filters}...\n`);
@@ -43,7 +45,9 @@ async function fetchIssues() {
     } else return false;
   }
   else {
-    if(await fetchIssuesInMilestone(octokit, params, groupedIssues)) {
+    groupedIssues = await fetchIssuesInMilestone(octokit, params);
+    
+    if (groupedIssues.length > 0) {
       console.log(`\nFinished fecthing issues in Milestone ${params.milestone}!\n`);
       console.log('Started creating Changes lof for issues in single block...\n');
       return true;
@@ -52,6 +56,11 @@ async function fetchIssues() {
 }
 
 async function asyncGenerateChangesLog() {
+  if(!octokit.asyncTryToken()) {
+    console.log('The token is not valid!');
+    return;
+  }
+
   if(await fetchIssues()) {
     console.log('\nSuccessful fetch!');
     const changesLog = generateChangesLog(groupedIssues, params);
