@@ -1,3 +1,4 @@
+const { getTitle } = require('../constants');
 
 let issuesNumbersIncluded = [];
 
@@ -12,22 +13,13 @@ function checkForDuplication(issue, duplicateIssues) {
 }
 
 module.exports.generateChangesLog = function (groupIssues, {duplicateIssues, milestone}) {
-  let changesLog = `# Changes Log for Milestone ${milestone}\n\n`;
+  let changesLog = `# Changes Log for Milestone ${milestone}`;
 
   groupIssues.forEach(group => {
     const { forCustomer, noCustomer } = group.issues;
 
-    switch(group.key) {
-      case 'Feature: new':
-        changesLog += `\n\n## New Features`;
-        break;
-      case 'Feature: existing':
-        changesLog += `\n\n## Improvements`;
-        break;
-      case 'Bug: production':
-        changesLog += `\n\n## Bug fixes`;
-        break;
-    }
+    changesLog += getTitle(group.key);
+
     if (group.customer){
       changesLog += `\n\n### For customer: ${group.customer}`;
       forCustomer.forEach(issue=> changesLog += checkForDuplication(issue, duplicateIssues));
