@@ -15,10 +15,7 @@ const featureTypes = {
     EXISTING: 'existing'
 }
 
-function getPrefix (label) {
-    const labelPrefix= label.split(':');
-    return (labelPrefix.length > 0) ? labelPrefix[0].trimRight() : '';
-}
+const getPrefix = (label) => (label || '').split(':')[0].trimRight();
 
 function getType (label) {
     const labelType = (label || '').split(':');
@@ -37,8 +34,6 @@ function getTitle (label) {
                 case featureTypes.NEW:
                     return `\n\n## New Features`;
                 default:
-
-                    console.log(type, featureTypes.EXISTING, featureTypes.NEW, type === featureTypes.EXISTING, type === featureTypes.NEW);
                     return `\n\n## ${prefix}:${type} - No title preset`;
             }
         case prefixes.BUG:
@@ -46,7 +41,6 @@ function getTitle (label) {
                 case bugTypes.PRODUCTION:
                     return `\n\n## Bug fixes`;
                 default:
-                    console.log(type, bugTypes.PRODUCTION, type === bugTypes.PRODUCTION);
                     return `\n\n## ${prefix}:${type} - No title preset`;
             }
         default:
