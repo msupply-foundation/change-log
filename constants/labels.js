@@ -21,7 +21,7 @@ function getPrefix (label) {
 }
 
 function getType (label) {
-    const labelType = label.split(':');
+    const labelType = (label || '').split(':');
     return (labelType.length > 1) ? labelType[1].trimLeft() : '';
 }
 
