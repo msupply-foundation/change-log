@@ -1,5 +1,8 @@
-const prefixes = require('./labelsPrefixes');
+const { prefixes, getTitle, checkSomeLabelEquals, checkSomeLabelHasPrefix } = require('./labels');
 
 module.exports = {
-  prefixes
+  prefixes,
+  getTitle,
+  checkSomeLabelEquals,
+  checkSomeLabelHasPrefix
 };
