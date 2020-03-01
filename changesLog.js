@@ -22,10 +22,8 @@ let groupedIssues = [];
 const { filters } = commander;
 const params = {
   milestone: commander.milestone,
-  state: commander.state ? commander.state : 'closed',
-  customer: commander.customer ? commander.customer : undefined,
-  duplicateIssues: commander.duplicate ? commander.duplicate : true,
-  includeIssueForAll: commander.includeAll ? commander.includeAll : true
+  const { milestone, state = 'closed', customer = null, duplicate = true, includeAll: includeIssueForAll = true } = commander;
+  const params = { milestone, state, customer, duplicate, includeIssueForAll }
 };
 
 async function fetchIssues() {
