@@ -3,9 +3,7 @@ const commander = require('commander');
 const fs = require('fs');
 const { fetchIssuesInMilestone, generateChangesLog } = require('./helpers');
 
-function commaSeparatedList(value) {
-  return value.split(',');
-}
+const commaSeparatedList = value => value.split(',');
 
 function checkValidStates(value) {
   return (value === 'closed') || (value === 'open') || (value === 'all') ? value : undefined;
