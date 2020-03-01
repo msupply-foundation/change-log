@@ -19,7 +19,7 @@ commander
   .parse(process.argv);
 
 let groupedIssues = [];
-const filters = commander.filters;
+const { filters } = commander;
 const params = {
   milestone: commander.milestone,
   state: commander.state ? commander.state : 'closed',
