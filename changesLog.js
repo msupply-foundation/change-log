@@ -5,7 +5,7 @@ const { fetchIssuesInMilestone, generateChangesLog } = require('./helpers');
 
 const commaSeparatedList = value => value.split(',');
 
-const validateState = value => (value === 'closed') || (value === 'open') || (value === 'all') ? value : undefined;
+const validateState = value => (value === 'closed') || (value === 'open') || (value === 'all') ? value : null;
 
 commander
   .version('1.0.0', '-v, --version')
