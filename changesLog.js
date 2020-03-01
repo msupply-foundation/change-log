@@ -20,11 +20,8 @@ commander
 
 let groupedIssues = [];
 const { filters } = commander;
-const params = {
-  milestone: commander.milestone,
-  const { milestone, state = 'closed', customer = null, duplicate = true, includeAll: includeIssueForAll = true } = commander;
-  const params = { milestone, state, customer, duplicate, includeIssueForAll }
-};
+const { milestone, customer, state = 'closed', duplicate = true, includeAll: includeIssueForAll = true } = commander;
+const params = { milestone, customer, state, duplicate, includeIssueForAll };
 
 async function fetchIssues() {
   console.log(`\n\nFetching issues in Milestone ${params.milestone}...\n`);
