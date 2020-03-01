@@ -39,7 +39,7 @@ const fetchIssues = async () => {
     groupedIssues = await fetchIssuesInMilestone(octokit, params);
     
     if (groupedIssues.length > 0) {
-      console.log(`\nFinished fecthing issues in Milestone ${params.milestone}!\n`);
+      console.log(`\nFetched issues assigned to milestone: ${params.milestone}!\n`);
       console.log('Started creating Changes lof for issues in single block...\n');
       return true;
     } else return false;
