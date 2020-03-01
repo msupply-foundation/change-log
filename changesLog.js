@@ -12,7 +12,7 @@ commander
   .usage('[OPTIONS]...')
   .requiredOption('-m, --milestone <number>', 'must filter issue from milestone')
   .option('-c, --customer <customer>, will filter the issues related to a customer if this option is received')
-  .option('-i, --includeAll <flag>', 'will include a section with issues done for all clients (Default: false)')
+  .option('-i, --includeIssueForAll <flag>', 'will include a section with issues done for all clients (Default: false)')
   .option('-s, --state <state>', 'should use issues with state: closed, open, all (Default: closed)', validateState)
   .option('-f, --filters <labels>', 'comma separated labels to filter and group by issues', commaSeparatedList)
   .option('-d, --duplicate <allow>', 'should allow duplicated issues in different groups (Default: true)')
@@ -20,7 +20,7 @@ commander
 
 let groupedIssues = [];
 const { filters } = commander;
-const { milestone, customer, state = 'closed', duplicate = true, includeAll: includeIssueForAll = true } = commander;
+const { milestone, customer, state = 'closed', duplicate = true, includeIssueForAll = true } = commander;
 const params = { milestone, customer, state, duplicate, includeIssueForAll };
 
 async function fetchIssues() {
