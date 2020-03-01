@@ -23,7 +23,7 @@ const { filters } = commander;
 const { milestone, customer, state = 'closed', duplicate = true, includeIssueForAll = true } = commander;
 const params = { milestone, customer, state, duplicate, includeIssueForAll };
 
-async function fetchIssues() {
+const fetchIssues = async () => {
   console.log(`\n\nFetching issues in Milestone ${params.milestone}...\n`);
   if(filters) {
     groupedIssues = await fetchIssuesInMilestone(octokit, params, filters);
