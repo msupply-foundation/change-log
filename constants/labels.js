@@ -1,5 +1,5 @@
 
-const prefixes = {
+const LABEL_GROUPS = {
     CUSTOMER: 'Customer',
     BUG: 'Bug',
     FEATURE: 'Feature'
