@@ -1,5 +1,5 @@
 
-const prefixes = {
+const PREFIXES = {
     CUSTOMER: 'Customer',
     BUG: 'Bug',
     FEATURE: 'Feature'
@@ -27,7 +27,7 @@ function getTitle (label) {
     const type = getType(label);
 
     switch(prefix) {
-        case prefixes.FEATURE:
+        case PREFIXES.FEATURE:
             switch (type) {
                 case featureTypes.EXISTING:
                     return `\n\n## Improvements`;
@@ -36,7 +36,7 @@ function getTitle (label) {
                 default:
                     return `\n\n## ${prefix}:${type} - No title preset`;
             }
-        case prefixes.BUG:
+        case PREFIXES.BUG:
             switch (type) {
                 case bugTypes.PRODUCTION:
                     return `\n\n## Bug fixes`;
@@ -57,7 +57,7 @@ function checkSomeLabelHasPrefix(labels, prefix) {
 }
 
 module.exports = {
-    prefixes,
+    PREFIXES,
     getTitle,
     checkSomeLabelEquals,
     checkSomeLabelHasPrefix
