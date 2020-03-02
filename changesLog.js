@@ -2,7 +2,7 @@ const octokit = require('./githubAPI/octokit');
 const commander = require('commander');
 const fs = require('fs');
 const { fetchIssuesInMilestone, generateChangesLog } = require('./helpers');
-const { logs, textPath } = require('./constants');
+const { proccessLogs, TEXT_PATH } = require('./constants');
 
 const commaSeparatedList = value => value.split(',');
 
@@ -24,36 +24,36 @@ const { milestone, customer, state = 'closed', duplicate = true, includeIssueFor
 const params = { milestone, customer, state, duplicate, includeIssueForAll };
 
 const fetchIssues = async () => {
-  console.log(logs(params).fetch_starts);
+  console.log(proccessLogs(params).fetch_starts);
  
   groupedIssues = await fetchIssuesInMilestone(octokit, params, filters);
   if (groupedIssues.length > 0) {
-    console.log(logs(params).fetch_finished);
+    console.log(proccessLogs(params).fetch_finished);
     if (filters) {
       params.filters = filters;
-      console.log(params.duplicateIssues ? logs(params).duplicate_issues : logs(params).single_issues);
+      console.log(params.duplicateIssues ? proccessLogs(params).duplicate_issues : proccessLogs(params).single_issues);
     }
-    console.log(logs(params).starts_grouped_changes_log);
+    console.log(proccessLogs(params).starts_grouped_changes_log);
     return groupedIssues;
   } else return [];
 }
 
 async function asyncGenerateChangesLog() {
   if(!octokit.asyncTryToken()) {
-    console.log(logs(params).token_invalid);
+    console.log(proccessLogs(params).token_invalid);
     return;
   }
 
   const issuesInMilestone = await fetchIssues();
   
   if(issuesInMilestone.length > 0) {
-    console.log(logs(params).fetch_success);
+    console.log(proccessLogs(params).fetch_success);
     const changesLog = generateChangesLog(issuesInMilestone, params);
     fs.writeFile(TEXT_PATH, changesLog, (err) => {
       if (err) throw err;
-      console.log(logs(params).saved_file_changes_log);
+      console.log(proccessLogs(params).saved_file_changes_log);
     });
-  } else console.log(logs(params).fetch_failed);
+  } else console.log(proccessLogs(params).fetch_failed);
 }
 
 asyncGenerateChangesLog();

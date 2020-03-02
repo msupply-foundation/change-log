@@ -1,4 +1,4 @@
-const { PREFIXES, checkSomeLabelEquals, checkSomeLabelHasPrefix } = require('../constants');
+const { PREFIXES, logIssuesCount, checkSomeLabelEquals, checkSomeLabelHasPrefix } = require('../constants');
 
 async function fetchIssuesInMilestoneByFilters (octokit, params) {
     const { customer, includeIssueForAll } = params;
@@ -55,17 +55,7 @@ module.exports.fetchIssuesInMilestone = async function (octokit, params, filters
   const issues = (!filters) ? await fetchIssuesUsingParams(octokit, params)
    : await asyncForEach(filters, octokit, params, fetchIssuesByFilter);
 
-   issues.forEach(group => {
-    const { forCustomer, noCustomer } = group.issues;
-    (group.key) ? console.log('\nIssues type:', group.key) : console.log('\n');
-    if(group.customer){
-      console.log('No costumer:', noCustomer.length);
-      console.log('For', group.customer, ':', forCustomer.length);
-    } 
-    else {
-      console.log('Issues count:', noCustomer.length);
-    }
-  });
+   issues.forEach(group => console.log(logIssuesCount(group)));
 
   return issues;
 }

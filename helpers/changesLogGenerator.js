@@ -1,19 +1,20 @@
-const { getTitle } = require('../constants');
+const { getTitle, initChangeLog, issuesChangeLog } = require('../constants');
 
 let issuesNumbersIncluded = [];
 
 function checkForDuplication(issue, duplicateIssues) {
-  if(duplicateIssues === true) return `\n- ${issue.title} [${issue.number}]`;
+  if(duplicateIssues === true) return issuesChangeLog(issue).issue_line;
 
-  const duplicate = issuesNumbersIncluded.some(numberIncluded => (numberIncluded === issue.number));
+  const duplicate = issuesNumbersIncluded
+   .some(numberIncluded => (numberIncluded === issue.number));
   if (!duplicate) {
     issuesNumbersIncluded.push(issue.number);
-    return `\n- ${issue.title} [${issue.number}]`;
+    return issuesChangeLog(issue).issue_line;
   }
 }
 
 module.exports.generateChangesLog = function (groupIssues, {duplicateIssues, milestone}) {
-  let changesLog = `# Changes Log for Milestone ${milestone}`;
+  let changesLog = initChangeLog(milestone);
 
   groupIssues.forEach(group => {
     const { forCustomer, noCustomer } = group.issues;
@@ -21,14 +22,15 @@ module.exports.generateChangesLog = function (groupIssues, {duplicateIssues, mil
     changesLog += getTitle(group.key);
 
     if (group.customer){
-      changesLog += `\n\n### For customer: ${group.customer}`;
-      forCustomer.forEach(issue=> changesLog += checkForDuplication(issue, duplicateIssues));
+      changesLog += issuesChangeLog(group).changes_for_customer;
+      forCustomer
+       .forEach(issue=> changesLog += checkForDuplication(issue, duplicateIssues));
     }
     if (group.customer && noCustomer.length > 0 ){
-      changesLog += '\n--------\n### For all customers:';
+      changesLog += issuesChangeLog(group).changes_for_all;
     }
-    noCustomer.forEach(issue => changesLog += checkForDuplication(issue, duplicateIssues));
-    changesLog += '\n--------\n';
+    noCustomer
+     .forEach(issue => changesLog += checkForDuplication(issue, duplicateIssues));
   });
   return changesLog;
 }

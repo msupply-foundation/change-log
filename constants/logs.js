@@ -9,12 +9,23 @@ const OUTPUT = {
     STARTED_GROUPED_CHANGES_LOG: 'Creating Changes-log for issues based on groups: ',
     STARTED_SINGLE_CHANGES_LOG: 'Creating Changes-log for issues without groups.',
     SAVED_FILE_CHANGES_LOG: '\nThe file has been saved!',
+    CHANGE_LOG_INIT: '# ChangeLog for Milestone: ',
+    CHANGES_FOR_CUSTOMER: '\n### For customer: ',
+    CHANGES_FOR_ALL: '\n### For all customers:',
+    ISSUES_TYPE: '\nIssues type: ',
+    ISSUES_COUNT: 'Issues count: ',
+    ISSUES_FOR_CUSTOMER: ' issues for customer: ',
+    ISSUES_FOR_ALL_CUSTOMERS: ' issues for all customers.',
     DOTS: '...',
     NEWLINE: '\n',
     EXCLAMATION: '!',
+    LIST: '- ',
+    ISSUE_NUMBER_START: ' [',
+    ISSUE_NUMBER_END: ']',
+    SEPARATOR: '\n--------'
 }
 
-const logs = params => {
+const proccessLogs = params => {
     return {
         token_invalid: OUTPUT.TOKEN_INVALID,
         fetch_starts: OUTPUT.FETCH_MILESTONES_ISSUES + params.milestone + OUTPUT.DOTS + OUTPUT.NEWLINE,
@@ -29,6 +40,29 @@ const logs = params => {
     };
 };
 
+const initChangeLog = milestoneNumber => OUTPUT.TITLE_1 + OUTPUT.CHANGE_LOG_INIT + milestoneNumber
+
+const issuesChangeLog = issue => {
+    return {
+        changes_for_customer: OUTPUT.CHANGES_FOR_CUSTOMER + issue.customer,
+        changes_for_all: OUTPUT.SEPARATOR + OUTPUT.CHANGES_FOR_ALL,
+        issue_line: OUTPUT.NEWLINE + OUTPUT.LIST + issue.title + OUTPUT.ISSUE_NUMBER_START + issue.number + OUTPUT.ISSUE_NUMBER_END,
+    };
+}
+
+const logIssuesCount = (group) => {
+    const { forCustomer, noCustomer } = group.issues;
+    let logger = OUTPUT.ISSUES_TYPE + group.key + OUTPUT.NEWLINE;
+    if(group.customer) {
+        logger += noCustomer.length + OUTPUT.ISSUES_FOR_ALL_CUSTOMERS + OUTPUT.NEWLINE
+                + forCustomer.length + OUTPUT.ISSUES_FOR_CUSTOMER + group.customer + OUTPUT.NEWLINE;
+    } else logger += OUTPUT.ISSUES_COUNT + noCustomer.length + OUTPUT.NEWLINE;
+    return logger;
+}
+
 module.exports = {
-    logs
+    initChangeLog,
+    issuesChangeLog,
+    proccessLogs,
+    logIssuesCount,
 };
