@@ -39,7 +39,7 @@ const fetchIssues = async () => {
   } else return false;
 }
 
-async function asyncGenerateChangesLog() {
+const asyncGenerateChangesLog = async () => {
   if(!octokit.asyncTryToken()) {
     console.log(logs(params).token_invalid);
     return;
