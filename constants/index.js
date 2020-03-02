@@ -1,11 +1,12 @@
-const { PREFIXES, getTitle, checkSomeLabelEquals, checkSomeLabelHasPrefix } = require('./labels');
+const { TEXT_PATH } = requires('./path');
+const { PREFIXES } = require('./labels');
+const { getTitle, checkSomeLabelEquals, checkSomeLabelHasPrefix } = require('./labels');
 const { logs } = require('./logs');
-const { textPath } = requires('./path');
 
 module.exports = {
   PREFIXES,
+  TEXT_PATH,
   logs,
-  textPath,
   getTitle,
   checkSomeLabelEquals,
   checkSomeLabelHasPrefix

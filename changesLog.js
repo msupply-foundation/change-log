@@ -49,7 +49,7 @@ async function asyncGenerateChangesLog() {
   if(issuesInMilestone.length > 0) {
     console.log(logs(params).fetch_success);
     const changesLog = generateChangesLog(issuesInMilestone, params);
-    fs.writeFile(textPath, changesLog, (err) => {
+    fs.writeFile(TEXT_PATH, changesLog, (err) => {
       if (err) throw err;
       console.log(logs(params).saved_file_changes_log);
     });
