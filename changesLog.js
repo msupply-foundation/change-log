@@ -2,7 +2,7 @@ const octokit = require('./githubAPI/octokit');
 const commander = require('commander');
 const fs = require('fs');
 const { fetchIssuesInMilestone, generateChangesLog } = require('./helpers');
-const { logs } = require('./constants');
+const { logs, textPath } = require('./constants');
 
 const commaSeparatedList = value => value.split(',');
 
@@ -49,7 +49,7 @@ async function asyncGenerateChangesLog() {
   if(issuesInMilestone.length > 0) {
     console.log(logs(params).fetch_success);
     const changesLog = generateChangesLog(issuesInMilestone, params);
-    fs.writeFile('changesLog.txt', changesLog, (err) => {
+    fs.writeFile(textPath, changesLog, (err) => {
       if (err) throw err;
       console.log(logs(params).saved_file_changes_log);
     });

@@ -1,0 +1,1 @@
+module.exports.textPath = 'changesLog.txt';
