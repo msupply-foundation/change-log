@@ -19,7 +19,6 @@ commander
   .option('-d, --duplicate <allow>', 'should allow duplicated issues in different groups (Default: true)')
   .parse(process.argv);
 
-let groupedIssues = [];
 const { filters } = commander;
 const { milestone, customer, state = 'closed', duplicate = true, includeIssueForAll = true } = commander;
 const params = { milestone, customer, state, duplicate, includeIssueForAll };
@@ -35,8 +34,8 @@ const fetchIssues = async () => {
       console.log(params.duplicateIssues ? logs(params).duplicate_issues : logs(params).single_issues);
     }
     console.log(logs(params).starts_grouped_changes_log);
-    return true;
-  } else return false;
+    return groupedIssues;
+  } else return [];
 }
 
 async function asyncGenerateChangesLog() {
@@ -45,15 +44,16 @@ async function asyncGenerateChangesLog() {
     return;
   }
 
-  if(await fetchIssues()) {
+  const issuesInMilestone = await fetchIssues();
+  
+  if(issuesInMilestone.length > 0) {
     console.log(logs(params).fetch_success);
-    const changesLog = generateChangesLog(groupedIssues, params);
+    const changesLog = generateChangesLog(issuesInMilestone, params);
     fs.writeFile('changesLog.txt', changesLog, (err) => {
       if (err) throw err;
       console.log(logs(params).saved_file_changes_log);
     });
   } else console.log(logs(params).fetch_failed);
-
 }
 
 asyncGenerateChangesLog();
