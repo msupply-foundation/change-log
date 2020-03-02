@@ -26,26 +26,17 @@ const params = { milestone, customer, state, duplicate, includeIssueForAll };
 
 const fetchIssues = async () => {
   console.log(logs(params).fetch_starts);
-  if(filters) {
-    groupedIssues = await fetchIssuesInMilestone(octokit, params, filters);
-    params.filters = filters;
-    
-    if (groupedIssues.length > 0) {
-      console.log(logs(params).fetch_finished);
+ 
+  groupedIssues = await fetchIssuesInMilestone(octokit, params, filters);
+  if (groupedIssues.length > 0) {
+    console.log(logs(params).fetch_finished);
+    if (filters) {
+      params.filters = filters;
       console.log(params.duplicateIssues ? logs(params).duplicate_issues : logs(params).single_issues);
-      console.log(logs(params).starts_grouped_changes_log);
-      return true;
-    } else return false;
-  }
-  else {
-    groupedIssues = await fetchIssuesInMilestone(octokit, params);
-    
-    if (groupedIssues.length > 0) {
-      console.log(logs(params).fetch_finished);
-      console.log(logs(params).starts_single_changes_log);
-      return true;
-    } else return false;
-  }
+    }
+    console.log(logs(params).starts_grouped_changes_log);
+    return true;
+  } else return false;
 }
 
 async function asyncGenerateChangesLog() {
