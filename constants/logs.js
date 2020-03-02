@@ -4,7 +4,7 @@ const OUTPUT = {
     FETCHED_MILESTONES_ISSUES: '\nFetched issues by filters in Milestone: ',
     FETCH_SUCCESS: '\nSuccessful fetch!',
     FETCH_FAILED: '\nFailled to fetch!',
-    DUPLICATED_ISSUES: 'Duplicating issues (in different groups) when has both labels.',
+    DUPLICATED_ISSUES: 'Duplicating issues when has duplicated labels.',
     SINGLE_ISSUES: 'Not duplicating issues.',
     STARTED_GROUPED_CHANGES_LOG: 'Creating Changes-log for issues based on groups: ',
     STARTED_SINGLE_CHANGES_LOG: 'Creating Changes-log for issues without groups.',
