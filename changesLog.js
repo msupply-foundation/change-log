@@ -2,6 +2,7 @@ const octokit = require('./githubAPI/octokit');
 const commander = require('commander');
 const fs = require('fs');
 const { fetchIssuesInMilestone, generateChangesLog } = require('./helpers');
+const { logs } = require('./constants');
 
 const commaSeparatedList = value => value.split(',');
 
@@ -24,14 +25,15 @@ const { milestone, customer, state = 'closed', duplicate = true, includeIssueFor
 const params = { milestone, customer, state, duplicate, includeIssueForAll };
 
 const fetchIssues = async () => {
-  console.log(`\n\nFetching issues in Milestone ${params.milestone}...\n`);
+  console.log(logs(params).fetch_starts);
   if(filters) {
     groupedIssues = await fetchIssuesInMilestone(octokit, params, filters);
+    params.filters = filters;
     
     if (groupedIssues.length > 0) {
-      console.log(`\nFinished fetching issues by filters in Milestone ${params.milestone}!\n`);
-      console.log(`Duplicate issues (in different groups) set to: ${params.duplicateIssues}.\n`);
-      console.log(`Started creating Changes log for issues based on Groups: ${filters}...\n`);
+      console.log(logs(params).fetch_finished);
+      console.log(params.duplicateIssues ? logs(params).duplicate_issues : logs(params).single_issues);
+      console.log(logs(params).starts_grouped_changes_log);
       return true;
     } else return false;
   }
@@ -39,8 +41,8 @@ const fetchIssues = async () => {
     groupedIssues = await fetchIssuesInMilestone(octokit, params);
     
     if (groupedIssues.length > 0) {
-      console.log(`\nFetched issues assigned to milestone: ${params.milestone}!\n`);
-      console.log('Started creating Changes lof for issues in single block...\n');
+      console.log(logs(params).fetch_finished);
+      console.log(logs(params).starts_single_changes_log);
       return true;
     } else return false;
   }
@@ -48,18 +50,18 @@ const fetchIssues = async () => {
 
 async function asyncGenerateChangesLog() {
   if(!octokit.asyncTryToken()) {
-    console.log('The token is not valid!');
+    console.log(logs(params).token_invalid);
     return;
   }
 
   if(await fetchIssues()) {
-    console.log('\nSuccessful fetch!');
+    console.log(logs(params).fetch_success);
     const changesLog = generateChangesLog(groupedIssues, params);
     fs.writeFile('changesLog.txt', changesLog, (err) => {
       if (err) throw err;
-      console.log('\nThe file has been saved!');
+      console.log(logs(params).saved_file_changes_log);
     });
-  } else console.log('\nFailled to fetch!');
+  } else console.log(logs(params).fetch_failed);
 
 }
 
