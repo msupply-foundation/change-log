@@ -18,7 +18,7 @@ if(!octokit.auth) {
 
 module.exports.asyncTryToken = async function() {
   let checkToken = false;
-  await octokit.repos.get({
+  checkToken = await octokit.repos.get({
     owner: process.env.OWNER,
     repo: process.env.REPO,
     mediaType: {
@@ -29,7 +29,7 @@ module.exports.asyncTryToken = async function() {
     console.log(e);
     return checkToken;
   });
-
+  return checkToken;
 }
 
 module.exports.getIssues = async function(params) {
