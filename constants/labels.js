@@ -5,7 +5,7 @@ const LABEL_GROUPS = {
     FEATURE: 'Feature'
 };
 
-const bugTypes = {
+const LABEL_TYPES_BUG = {
     PRODUCTION: 'production',
     DEVELOPMENT: 'development'
 }
