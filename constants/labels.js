@@ -29,9 +29,9 @@ function getTitle (label) {
     switch(prefix) {
         case LABEL_GROUPS.FEATURE:
             switch (type) {
-                case featureTypes.EXISTING:
+                case LABEL_TYPES_FEATURE.EXISTING:
                     return `\n\n## Improvements`;
-                case featureTypes.NEW:
+                case LABEL_TYPES_FEATURE.NEW:
                     return `\n\n## New Features`;
                 default:
                     return `\n\n## ${prefix}:${type} - No title preset`;
