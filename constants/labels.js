@@ -25,8 +25,7 @@ const parseLabel = label => {
 }
 
 function getTitle (label) {
-    const prefix = getPrefix(label);
-    const type = getType(label);
+    const { group, type } = parseLabel(label);
 
     switch(prefix) {
         case LABEL_GROUPS.FEATURE:
