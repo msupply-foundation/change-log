@@ -15,11 +15,13 @@ const LABEL_TYPES_FEATURE = {
     EXISTING: 'existing'
 }
 
-const getPrefix = (label) => (label || '').split(':')[0].trimRight();
-
-function getType (label) {
-    const labelType = (label || '').split(':');
-    return (labelType.length > 1) ? labelType[1].trimLeft() : '';
+const parseLabel = label => {
+  if (!label) return { group: null, type: null };
+  const [group = '', type= ''] = label.split(';');
+  return {
+    group: group.trimRight(),
+    type: type.trimLeft(),
+  };
 }
 
 function getTitle (label) {
