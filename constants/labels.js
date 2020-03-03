@@ -27,7 +27,7 @@ const parseLabel = label => {
 function getTitle (label) {
     const { group, type } = parseLabel(label);
 
-    switch(prefix) {
+    switch(group) {
         case LABEL_GROUPS.FEATURE:
             switch (type) {
                 case LABEL_TYPES_FEATURE.EXISTING:
@@ -35,17 +35,17 @@ function getTitle (label) {
                 case LABEL_TYPES_FEATURE.NEW:
                     return `\n\n## New Features`;
                 default:
-                    return `\n\n## ${prefix}:${type} - No title preset`;
+                    return `\n\n## ${group}:${type} - No title preset`;
             }
         case LABEL_GROUPS.BUG:
             switch (type) {
                 case LABEL_TYPES_BUG.PRODUCTION:
                     return `\n\n## Bug fixes`;
                 default:
-                    return `\n\n## ${prefix}:${type} - No title preset`;
+                    return `\n\n## ${group}:${type} - No title preset`;
             }
         default:
-            return `\n\n## ${prefix} - No title preset`;
+            return `\n\n## ${group} - No title preset`;
     }
 }
 
@@ -54,7 +54,10 @@ function checkSomeLabelEquals(labels, prefix, value) {
 }
 
 function checkSomeLabelHasPrefix(labels, prefix) {
-    labels.some(({name}) => getPrefix(name) === prefix);
+    labels.some(({name}) => {
+        const { group } = parseLabel(name);
+        group === prefix
+    });
 }
 
 module.exports = {
