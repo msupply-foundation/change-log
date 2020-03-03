@@ -38,8 +38,9 @@ const fetchIssues = async () => {
   } else return [];
 }
 
-async function asyncGenerateChangesLog() {
-  if(!octokit.asyncTryToken()) {
+const asyncGenerateChangesLog = async () => {
+  const isValidToken = await octokit.asyncTryToken();
+  if (!isValidToken) {
     console.log(proccessLogs(params).token_invalid);
     return;
   }

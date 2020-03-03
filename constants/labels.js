@@ -1,11 +1,11 @@
 
-const PREFIXES = {
+const LABEL_GROUPS = {
     CUSTOMER: 'Customer',
     BUG: 'Bug',
     FEATURE: 'Feature'
 };
 
-const bugTypes = {
+const LABEL_TYPES_BUG = {
     PRODUCTION: 'production',
     DEVELOPMENT: 'development'
 }
