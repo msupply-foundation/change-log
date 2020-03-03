@@ -1,14 +1,14 @@
-const { PREFIXES, logIssuesCount, checkSomeLabelEquals, checkSomeLabelHasPrefix } = require('../constants');
+const { LABEL_GROUPS, logIssuesCount, checkSomeLabelEquals, checkSomeLabelHasPrefix } = require('../constants');
 
 async function fetchIssuesInMilestoneByFilters (octokit, params) {
     const { customer, includeIssueForAll } = params;
 
     const filterIssuesForCustomer = function (issues) {
-      return issues.filter( issue => checkSomeLabelEquals(issue.labels, PREFIXES.CUSTOMER, customer));
+      return issues.filter( issue => checkSomeLabelEquals(issue.labels, LABEL_GROUPS.CUSTOMER, customer));
     }
 
     const filterIssuesForAnyCustomer = function (issues) {
-      return issues.filter( issue => !checkSomeLabelHasPrefix(issue.labels, PREFIXES.CUSTOMER));
+      return issues.filter( issue => !checkSomeLabelHasPrefix(issue.labels, LABEL_GROUPS.CUSTOMER));
     }
 
     const issues = await octokit.getIssues(params);

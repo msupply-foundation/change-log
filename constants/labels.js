@@ -27,7 +27,7 @@ function getTitle (label) {
     const type = getType(label);
 
     switch(prefix) {
-        case PREFIXES.FEATURE:
+        case LABEL_GROUPS.FEATURE:
             switch (type) {
                 case featureTypes.EXISTING:
                     return `\n\n## Improvements`;
@@ -36,9 +36,9 @@ function getTitle (label) {
                 default:
                     return `\n\n## ${prefix}:${type} - No title preset`;
             }
-        case PREFIXES.BUG:
+        case LABEL_GROUPS.BUG:
             switch (type) {
-                case bugTypes.PRODUCTION:
+                case LABEL_TYPES_BUG.PRODUCTION:
                     return `\n\n## Bug fixes`;
                 default:
                     return `\n\n## ${prefix}:${type} - No title preset`;
@@ -57,7 +57,7 @@ function checkSomeLabelHasPrefix(labels, prefix) {
 }
 
 module.exports = {
-    PREFIXES,
+    LABEL_GROUPS,
     getTitle,
     checkSomeLabelEquals,
     checkSomeLabelHasPrefix
