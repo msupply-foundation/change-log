@@ -10,7 +10,7 @@ const LABEL_TYPES_BUG = {
     DEVELOPMENT: 'development'
 }
 
-const featureTypes = {
+const LABEL_TYPES_FEATURE = {
     NEW: 'new',
     EXISTING: 'existing'
 }
