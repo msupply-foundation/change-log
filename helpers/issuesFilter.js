@@ -25,7 +25,7 @@ const fetchIssuesInMilestoneByFilters = async (octokit, params) {
     else return { noCustomer: issues };
 }
 
-async function fetchIssuesByFilter(octokit, params, group){
+const fetchIssuesByFilter = async (octokit, params, group) => {
   params.filter = group;
   return await fetchIssuesInMilestoneByFilters(octokit, params);
 }
