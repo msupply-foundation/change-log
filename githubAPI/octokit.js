@@ -53,6 +53,6 @@ module.exports.getIssues = async function(params) {
   });
 
   const issuesAndPRs = await octokit.paginate(options);
-  const onlyIssues = issuesAndPRs.filter( issue => (!issue.pull_request))
+  const issues = issuesPullRequests.filter( issue => (!issue.pull_request))
   return onlyIssues;
 }
