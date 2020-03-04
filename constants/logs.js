@@ -39,8 +39,8 @@ const initChangeLog = milestoneNumber => OUTPUT.TITLE_1 + OUTPUT.CHANGE_LOG_INIT
 
 const issuesChangeLog = issue => {
     return {
-        changes_for_customer: OUTPUT.CHANGES_FOR_CUSTOMER + issue.customer,
-        changes_for_all: OUTPUT.SEPARATOR + OUTPUT.CHANGES_FOR_ALL,
+        title_changes_for_customer: OUTPUT.CHANGES_FOR_CUSTOMER + issue.customer,
+        title_changes_for_all: OUTPUT.SEPARATOR + OUTPUT.CHANGES_FOR_ALL,
         issue_line: OUTPUT.NEWLINE + OUTPUT.LIST + issue.title + OUTPUT.ISSUE_NUMBER_START + issue.number + OUTPUT.ISSUE_NUMBER_END,
     };
 }
