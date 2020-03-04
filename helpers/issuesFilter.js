@@ -1,6 +1,6 @@
 const { LABEL_GROUPS, logIssuesCount, checkSomeLabelEquals, isLabelGroup } = require('../constants');
 
-async function fetchIssuesInMilestoneByFilters (octokit, params) {
+const fetchIssuesInMilestoneByFilters = async (octokit, params) {
     const { customer, includeIssueForAll } = params;
 
     const filterIssuesForCustomer = function (issues) {
