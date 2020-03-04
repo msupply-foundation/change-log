@@ -19,7 +19,8 @@ module.exports.generateChangesLog = function (groupIssues, {duplicateIssues, mil
   groupIssues.forEach(group => {
     const { forCustomer, noCustomer } = group.issues;
 
-    changesLog += getTitle(group.key);
+    const title = getTitle(group.key);
+    if(title) changesLog += title;
 
     if (group.customer){
       changesLog += issuesChangeLog(group).changes_for_customer;

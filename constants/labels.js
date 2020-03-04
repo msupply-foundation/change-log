@@ -1,3 +1,4 @@
+const { OUTPUT, groupTitleChangeLog } = require('./logs');
 
 const LABEL_GROUPS = {
     CUSTOMER: 'Customer',
@@ -31,22 +32,19 @@ function getTitle (label) {
         case LABEL_GROUPS.FEATURE:
             switch (type) {
                 case LABEL_TYPES_FEATURE.EXISTING:
-                    return `\n\n## Improvements`;
+                    return OUTPUT.IMPROVEMENTS_TITLE;
                 case LABEL_TYPES_FEATURE.NEW:
-                    return `\n\n## New Features`;
-                default:
-                    return `\n\n## ${group}:${type} - No title preset`;
+                    return OUTPUT.FEATURES_TITLE;
             }
         case LABEL_GROUPS.BUG:
             switch (type) {
                 case LABEL_TYPES_BUG.PRODUCTION:
-                    return `\n\n## Bug fixes`;
-                default:
-                    return `\n\n## ${group}:${type} - No title preset`;
+                    return OUTPUT.BUG_FIXES_TITLE;
             }
-        default:
-            return `\n\n## ${group} - No title preset`;
     }
+
+    // If not returned in one case statement
+    return groupTitleChangeLog(group, type);
 }
 
 function checkSomeLabelEquals(labels, prefix, value) {

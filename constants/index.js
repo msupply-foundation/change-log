@@ -1,7 +1,7 @@
 const { TEXT_PATH } = require('./path');
 const { LABEL_GROUPS } = require('./labels');
 const { getTitle, checkSomeLabelEquals, checkSomeLabelHasPrefix } = require('./labels');
-const { initChangeLog, issuesChangeLog, proccessLogs, logIssuesCount } = require('./logs');
+const { groupTitleChangeLog, initChangeLog, issuesChangeLog, logIssuesCount, proccessLogs } = require('./logs');
 
 module.exports = {
   LABEL_GROUPS,
@@ -9,8 +9,9 @@ module.exports = {
   getTitle,
   checkSomeLabelEquals,
   checkSomeLabelHasPrefix,
+  groupTitleChangeLog,
   initChangeLog,
   issuesChangeLog,
+  logIssuesCount,
   proccessLogs,
-  logIssuesCount
 };
