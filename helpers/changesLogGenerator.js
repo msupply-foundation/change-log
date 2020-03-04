@@ -2,7 +2,7 @@ const { getTitle, initChangeLog, issuesChangeLog } = require('../constants');
 
 let issuesNumbersIncluded = [];
 
-function checkForDuplication(issue, duplicateIssues) {
+const checkForDuplication = (issue, duplicateIssues) => {
   if(duplicateIssues === true) return issuesChangeLog(issue).issue_line;
 
   const duplicate = issuesNumbersIncluded
