@@ -1,4 +1,4 @@
-const { LABEL_GROUPS, logIssuesCount, checkSomeLabelEquals, checkSomeLabelHasPrefix } = require('../constants');
+const { LABEL_GROUPS, logIssuesCount, checkSomeLabelEquals, isLabelGroup } = require('../constants');
 
 async function fetchIssuesInMilestoneByFilters (octokit, params) {
     const { customer, includeIssueForAll } = params;
@@ -8,7 +8,7 @@ async function fetchIssuesInMilestoneByFilters (octokit, params) {
     }
 
     const filterIssuesForAnyCustomer = function (issues) {
-      return issues.filter( issue => !checkSomeLabelHasPrefix(issue.labels, LABEL_GROUPS.CUSTOMER));
+      return issues.filter( issue => !issue.labels.some(label => isLabelGroup( label, LABEL_GROUPS.CUSTOMER)));
     }
 
     const issues = await octokit.getIssues(params);

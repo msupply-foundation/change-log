@@ -25,6 +25,15 @@ const parseLabel = label => {
   };
 }
 
+function checkSomeLabelEquals(labels, prefix, value) {
+    return labels.some(({name}) => name === `${prefix}: ${value}`);
+}
+
+const isLabelGroup = (label, group) => {
+    const { group: labelGroup } = parseLabel(label.name);
+    return labelGroup === group;
+}
+
 function getTitle (label) {
     const { group, type } = parseLabel(label);
 
@@ -47,20 +56,9 @@ function getTitle (label) {
     return groupTitleChangeLog(group, type);
 }
 
-function checkSomeLabelEquals(labels, prefix, value) {
-    return labels.some(({name}) => name === `${prefix}: ${value}`);
-}
-
-function checkSomeLabelHasPrefix(labels, prefix) {
-    labels.some(({name}) => {
-        const { group } = parseLabel(name);
-        group === prefix
-    });
-}
-
 module.exports = {
     LABEL_GROUPS,
-    getTitle,
     checkSomeLabelEquals,
-    checkSomeLabelHasPrefix
+    isLabelGroup,
+    getTitle,
 }
