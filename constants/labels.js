@@ -47,7 +47,7 @@ function getTitle (label) {
     return groupTitleChangeLog(group, type);
 }
 
-function checkSomeLabelEquals(labels, prefix, value) {
+const checkSomeLabelEquals = (labels, prefix, value) => {
     return labels.some(({name}) => name === `${prefix}: ${value}`);
 }
 
