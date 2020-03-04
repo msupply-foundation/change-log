@@ -58,4 +58,4 @@ const getIssues = async (params) => {
   return issues;
 }
 
-module.exports = { asyncTryToken, getIssues };
+module.exports = { isValidToken, getIssues };
