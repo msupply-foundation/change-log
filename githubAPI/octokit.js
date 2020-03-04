@@ -1,5 +1,6 @@
-const { Octokit } = require("@octokit/rest");
+const { Octokit } = require('@octokit/rest');
 require('dotenv').config();
+const { OUTPUT } = require('../constants');
 
 const octokit = new Octokit({
   auth: process.env.WEBHOOK_SECRET,
@@ -12,11 +13,11 @@ const octokit = new Octokit({
 });
 
 if(!octokit.auth) {
-  console.log('Missing authentication token. Please add correct environment variable to file .env!');
-  return undefined;
+  console.log(OUTPUT.MISSING_TOKEN);
+  return ocktokit;
 }
 
-module.exports.asyncTryToken = async function() {
+const isValidToken = async () => {
   let checkToken = false;
   checkToken = await octokit.repos.get({
     owner: process.env.OWNER,
@@ -32,7 +33,7 @@ module.exports.asyncTryToken = async function() {
   return checkToken;
 }
 
-module.exports.getIssues = async function(params) {
+const getIssues = async (params) => {
   const { milestone, filter, state, owner, repo } = params;
   
   await octokit.registerEndpoints({
@@ -52,7 +53,9 @@ module.exports.getIssues = async function(params) {
     labels: filter
   });
 
-  const issuesAndPRs = await octokit.paginate(options);
+  const issuesPullRequests = await octokit.paginate(options);
   const issues = issuesPullRequests.filter( issue => (!issue.pull_request))
-  return onlyIssues;
+  return issues;
 }
+
+module.exports = { asyncTryToken, getIssues };

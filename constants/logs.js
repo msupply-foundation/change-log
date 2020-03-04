@@ -20,6 +20,7 @@ const OUTPUT = {
     ISSUE_NUMBER_START: ' [',
     ISSUE_NUMBER_END: ']',
     LIST: '- ',
+    MISSING_TOKEN: 'Missing authentication token. Please add correct environment variable to file .env!',
     NEWLINE: '\n',
     NO_TITLE_PRESET: '\n\n## No title preset for ',
     SINGLE_ISSUES: 'Not duplicating issues.',

@@ -39,7 +39,7 @@ const fetchIssues = async () => {
 }
 
 const asyncGenerateChangesLog = async () => {
-  const isValidToken = await octokit.asyncTryToken();
+  const isValidToken = await octokit.isValidToken();
   if (!isValidToken) {
     console.log(proccessLogs(params).token_invalid);
     return;
