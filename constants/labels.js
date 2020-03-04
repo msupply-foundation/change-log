@@ -51,7 +51,7 @@ const checkSomeLabelEquals = (labels, prefix, value) => {
     return labels.some(({name}) => name === `${prefix}: ${value}`);
 }
 
-function checkSomeLabelHasPrefix(labels, prefix) {
+const checkSomeLabelHasPrefix = (labels, prefix) => {
     labels.some(({name}) => {
         const { group } = parseLabel(name);
         group === prefix
