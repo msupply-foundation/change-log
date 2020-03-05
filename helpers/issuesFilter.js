@@ -33,20 +33,20 @@ const fetchIssuesByFilter = async (octokit, params, group) => {
 const fetchIssuesUsingParams = async (octokit, params) => {
   const { customer } = params;
   const issues = await fetchIssuesInMilestoneByFilters(octokit, params);
-  return [ { customer, issues } ]);
+  return [ { customer, issues } ];
 }
 
-async function asyncForEach (array, octokit, params, callback) {
+async function asyncForEach (filters, octokit, params, fetchIssuesByFilter) {
   const { customer } = params;
-  const issues = array.map(issue => issue.trimLeft());
-  return issues.map(issue => ({
-    key: issue,
+  const filters = filters.map(filter => filter.trimLeft());
+  return filters.map(filter => ({
+    key: filter,
     customer,
-    issues: await callback(octokit, params, issue),
-  });
+    issues: await fetchIssuesByFilter(octokit, params, filter),
+  }));
 }
 
-module.exports.fetchIssuesInMilestone = async function (octokit, params, filters) {
+const fetchIssuesInMilestone = async (octokit, params, filters) => {
   const issues = (!filters) ? await fetchIssuesUsingParams(octokit, params)
    : await asyncForEach(filters, octokit, params, fetchIssuesByFilter);
 
@@ -54,3 +54,7 @@ module.exports.fetchIssuesInMilestone = async function (octokit, params, filters
 
   return issues;
 }
+
+module.exports = {
+  fetchIssuesInMilestone
+};
