@@ -18,7 +18,7 @@ const LABEL_TYPES_FEATURE = {
 
 const parseLabel = label => {
   if (!label) return { group: null, type: null };
-  const [group = '', type= ''] = label.split(';');
+  const [group = '', type= ''] = label.split(':');
   return {
     group: group.trimRight(),
     type: type.trimLeft(),

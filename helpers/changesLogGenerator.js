@@ -15,19 +15,20 @@ const generateChangesLog = (groupIssues, {duplicateIssues, milestone}) => {
   let changesLog = initChangeLog(milestone);
 
   groupIssues.forEach(group => {
-    const { forCustomer, noCustomer } = group.issues;
+    const { issues, key, customer } = group;
+    const { forCustomer, noCustomer } = issues;
 
-    const title = getTitle(group.key);
+    const title = getTitle(key);
     if (title) changesLog += title;
 
-    if (group.customer) {
+    if (customer) {
       changesLog += issuesChangeLog(group).title_changes_for_customer;
       forCustomer.forEach(issue=> {
         const addIssue = (duplicateIssues) ? true : isDuplicateIssue(issue);
         if (addIssue) changesLog += issuesChangeLog(issue).issue_line;
       });
     }
-    if (group.customer && noCustomer.length > 0 ){
+    if (customer && noCustomer.length > 0 ){
       changesLog += issuesChangeLog(group).title_changes_for_all;
     }
 
@@ -35,6 +36,7 @@ const generateChangesLog = (groupIssues, {duplicateIssues, milestone}) => {
        const addIssue = (duplicateIssues) ? true : isDuplicateIssue(issue);
        if (addIssue) changesLog += issuesChangeLog(issue).issue_line;
      });
+     changesLog += issuesChangeLog(group).block_end;
   });
   return changesLog;
 }

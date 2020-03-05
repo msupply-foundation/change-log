@@ -10,9 +10,8 @@ const OUTPUT = {
     FEATURES_TITLE: '\n\n## New Features',
     FETCH_MILESTONES_ISSUES: '\nFetching issues in Milestone: ',
     FETCHED_MILESTONES_ISSUES: '\nFetched issues by filters in Milestone: ',
-    FETCH_SUCCESS: '\nSuccessful fetch!',
     FETCH_FAILED: '\nFailled to fetch!',
-    IMPROVEMENT_TITLE: '\n\n## Improvements',
+    IMPROVEMENTS_TITLE: '\n\n## Improvements',
     ISSUES_TYPE: '\nIssues type: ',
     ISSUES_COUNT: 'Issues count: ',
     ISSUES_FOR_CUSTOMER: ' issues for customer: ',
@@ -25,7 +24,7 @@ const OUTPUT = {
     NO_TITLE_PRESET: '\n\n## No title preset for ',
     SINGLE_ISSUES: 'Not duplicating issues.',
     SAVED_FILE_CHANGES_LOG: '\nThe file has been saved!',
-    SEPARATOR: '\n--------',
+    SEPARATOR: '\n--------\n',
     STARTED_GROUPED_CHANGES_LOG: 'Creating Changes-log for issues based on groups: ',
     STARTED_SINGLE_CHANGES_LOG: 'Creating Changes-log for issues without groups.',
     TOKEN_INVALID: 'Invalid GitHub authentication token!',
@@ -40,7 +39,8 @@ const initChangeLog = milestoneNumber => OUTPUT.TITLE_1 + OUTPUT.CHANGE_LOG_INIT
 const issuesChangeLog = issue => {
     return {
         title_changes_for_customer: OUTPUT.CHANGES_FOR_CUSTOMER + issue.customer,
-        title_changes_for_all: OUTPUT.SEPARATOR + OUTPUT.CHANGES_FOR_ALL,
+        title_changes_for_all: OUTPUT.CHANGES_FOR_ALL,
+        block_end: OUTPUT.SEPARATOR,
         issue_line: OUTPUT.NEWLINE + OUTPUT.LIST + issue.title + OUTPUT.ISSUE_NUMBER_START + issue.number + OUTPUT.ISSUE_NUMBER_END,
     };
 }
@@ -61,11 +61,10 @@ const proccessLogs = params => {
         duplicate_issues: OUTPUT.DUPLICATED_ISSUES + OUTPUT.NEWLINE,
         fetch_starts: OUTPUT.FETCH_MILESTONES_ISSUES + params.milestone + OUTPUT.DOTS + OUTPUT.NEWLINE,
         fetch_finished: OUTPUT.FETCHED_MILESTONES_ISSUES + params.milestone + OUTPUT.EXCLAMATION + OUTPUT.NEWLINE,
-        fetch_success: OUTPUT.FETCH_SUCCESS,
         fetch_failed: OUTPUT.FETCH_FAILED,
         saved_file_changes_log: OUTPUT.SAVED_FILE_CHANGES_LOG,
         single_issues: OUTPUT.SINGLE_ISSUES + OUTPUT.NEWLINE,
-        starts_grouped_changes_log: OUTPUT.STARTED_GROUPED_CHANGES_LOG + params.filter + OUTPUT.DOTS + OUTPUT.NEWLINE,
+        starts_grouped_changes_log: OUTPUT.STARTED_GROUPED_CHANGES_LOG + params.filters,
         starts_single_changes_log: OUTPUT.STARTED_SINGLE_CHANGES_LOG + OUTPUT.DOTS + OUTPUT.NEWLINE,
         token_invalid: OUTPUT.TOKEN_INVALID,
     };
