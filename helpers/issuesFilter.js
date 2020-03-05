@@ -49,8 +49,9 @@ const asyncForEach = async (filters, octokit, params, fetchIssuesByFilter) => {
 }
 
 const fetchIssuesInMilestone = async (octokit, params, filters) => {
-  const issues = (!filters) ? await fetchIssuesUsingParams(octokit, params)
-   : await asyncForEach(filters, octokit, params, fetchIssuesByFilter);
+  const issues = filters ?
+    await asyncForEach(filters, octokit, params, fetchIssuesByFilter) :
+    await fetchIssuesUsingParams(octokit, params);
 
   issues.forEach(group => console.log(logIssuesCount(group)));
 
