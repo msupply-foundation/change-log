@@ -18,7 +18,7 @@ const OUTPUT = {
     ISSUES_FOR_ALL_CUSTOMERS: ' issues for all customers.',
     ISSUE_NUMBER_START: ' [',
     ISSUE_NUMBER_END: ']',
-    LIST: '- ',
+    LIST: '* ',
     MISSING_TOKEN: 'Missing authentication token. Please add correct environment variable to file .env!',
     NEWLINE: '\n',
     NO_TITLE_PRESET: '\n\n## No title preset for ',
