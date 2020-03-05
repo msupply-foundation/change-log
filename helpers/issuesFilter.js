@@ -30,7 +30,7 @@ const fetchIssuesByFilter = async (octokit, params, group) => {
   return await fetchIssuesInMilestoneByFilters(octokit, issueParams);
 }
 
-async function fetchIssuesUsingParams(octokit, params) {
+const fetchIssuesUsingParams = async (octokit, params) => {
   const allIssues = [];
   allIssues.push({
     customer: params.customer,
