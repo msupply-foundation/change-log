@@ -7,7 +7,7 @@ Generates .txt files using Markdown notation with the "Change log" of the given 
 `node changeLog.js -h` - Show the help with required arguments for this call
 
 ### Examples 
-`node changeLog.js -m <number>` - Only required argument. Passing a Milestone number will generate a change log file for all the issues closed in the Milestone. TODO: Pass a Milestone name #1.
+`node changeLog.js -m <number>` - Only required argument. Passing a Milestone number will generate a change log file for all the issues closed in the Milestone. TODO: Use the Milestone name [Issue](https://github.com/openmsupply/changes-log/issues/2).
 
 `node changeLog.js -m <number> -f "Feature: new, Feature: existing, Bug: production"` - By giving filters will generate a change-log file for all the issues closed in the Milestone, divided per filter.
 
