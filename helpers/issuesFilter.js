@@ -1,24 +1,24 @@
 const { LABEL_GROUPS, logIssuesCount, checkSomeLabelEquals, isLabelGroup } = require('../constants');
 
-const fetchIssuesInMilestoneByFilters = async (octokit, params) {
+const filterIssuesForCustomer = (issues, customer) => {
+  return issues.filter( issue => checkSomeLabelEquals(issue.labels, LABEL_GROUPS.CUSTOMER, customer));
+}
+
+const filterIssuesForAnyCustomer = (issues) => {
+  return issues.filter( issue => !issue.labels.some(label => isLabelGroup( label, LABEL_GROUPS.CUSTOMER)));
+}
+
+const fetchIssuesInMilestoneByFilters = async (octokit, params) => {
     const { customer, includeIssueForAll } = params;
-
-    const filterIssuesForCustomer = function (issues) {
-      return issues.filter( issue => checkSomeLabelEquals(issue.labels, LABEL_GROUPS.CUSTOMER, customer));
-    }
-
-    const filterIssuesForAnyCustomer = function (issues) {
-      return issues.filter( issue => !issue.labels.some(label => isLabelGroup( label, LABEL_GROUPS.CUSTOMER)));
-    }
 
     const issues = await octokit.getIssues(params);
 
     if(customer && !includeIssueForAll) {
-      return { forCustomer: filterIssuesForCustomer(issues) };
+      return { forCustomer: filterIssuesForCustomer(issues, customer) };
     }
     else if(customer){
       return {
-        forCustomer: filterIssuesForCustomer(issues),
+        forCustomer: filterIssuesForCustomer(issues, customer),
         noCustomer: filterIssuesForAnyCustomer(issues)
       };
     }
