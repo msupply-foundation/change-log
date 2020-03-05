@@ -36,13 +36,15 @@ const fetchIssuesUsingParams = async (octokit, params) => {
   return [ { customer, issues } ];
 }
 
-async function asyncForEach (filters, octokit, params, fetchIssuesByFilter) {
+const asyncForEach = async (filters, octokit, params, fetchIssuesByFilter) => {
   const { customer } = params;
-  const filters = filters.map(filter => filter.trimLeft());
-  return filters.map(filter => ({
-    key: filter,
-    customer,
-    issues: await fetchIssuesByFilter(octokit, params, filter),
+  filters = filters.map(filter => filter.trimLeft());
+  return await Promise.all(filters.map(async filter =>  {
+    return {
+      key: filter,
+      customer,
+      issues: await fetchIssuesByFilter(octokit, params, filter),
+    }
   }));
 }
 
@@ -50,7 +52,7 @@ const fetchIssuesInMilestone = async (octokit, params, filters) => {
   const issues = (!filters) ? await fetchIssuesUsingParams(octokit, params)
    : await asyncForEach(filters, octokit, params, fetchIssuesByFilter);
 
-   issues.forEach(group => console.log(logIssuesCount(group)));
+  issues.forEach(group => console.log(logIssuesCount(group)));
 
   return issues;
 }
