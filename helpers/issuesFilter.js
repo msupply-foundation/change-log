@@ -26,17 +26,14 @@ const fetchIssuesInMilestoneByFilters = async (octokit, params) => {
 }
 
 const fetchIssuesByFilter = async (octokit, params, group) => {
-  params.filter = group;
-  return await fetchIssuesInMilestoneByFilters(octokit, params);
+  const issueParams = { ...params, filter: group };
+  return await fetchIssuesInMilestoneByFilters(octokit, issueParams);
 }
 
-async function fetchIssuesUsingParams(octokit, params) {
-  const allIssues = [];
-  allIssues.push({
-    customer: params.customer,
-    issues: await fetchIssuesInMilestoneByFilters(octokit, params)
-  });
-  return allIssues;
+const fetchIssuesUsingParams = async (octokit, params) => {
+  const { customer } = params;
+  const issues = await fetchIssuesInMilestoneByFilters(octokit, params);
+  return [ { customer, issues } ]);
 }
 
 async function asyncForEach (array, octokit, params, callback) {
