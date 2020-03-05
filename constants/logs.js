@@ -1,8 +1,8 @@
 const OUTPUT = {
     BUG_FIXES_TITLE: '\n\n## Bug fixes',
     CHANGE_LOG_INIT: '# ChangeLog for Milestone: ',
-    CHANGES_FOR_CUSTOMER: '\n### For customer: ',
-    CHANGES_FOR_ALL: '\n### For all customers:',
+    CHANGE_FOR_CUSTOMER: '\n### For customer: ',
+    CHANGE_FOR_ALL: '\n### For all customers:',
     COLON: ':',
     DOTS: '...',
     DUPLICATED_ISSUES: 'Duplicating issues when has duplicated labels.',
@@ -23,10 +23,10 @@ const OUTPUT = {
     NEWLINE: '\n',
     NO_TITLE_PRESET: '\n\n## No title preset for ',
     SINGLE_ISSUES: 'Not duplicating issues.',
-    SAVED_FILE_CHANGES_LOG: '\nThe file has been saved!',
+    SAVED_FILE_CHANGE_LOG: '\nThe file has been saved!',
     SEPARATOR: '\n--------\n',
-    STARTED_GROUPED_CHANGES_LOG: 'Creating Changes-log for issues based on groups: ',
-    STARTED_SINGLE_CHANGES_LOG: 'Creating Changes-log for issues without groups.',
+    STARTED_GROUPED_CHANGE_LOG: 'Creating Change-log for issues based on groups: ',
+    STARTED_SINGLE_CHANGE_LOG: 'Creating Change-log for issues without groups.',
     TOKEN_INVALID: 'Invalid GitHub authentication token!',
 }
 
@@ -34,12 +34,12 @@ const groupTitleChangeLog = (group, type) => {
     return (group) ? ((type) ? OUTPUT.NO_TITLE_PRESET + group + OUTPUT.COLON + type : OUTPUT.NO_TITLE_PRESET + group) : null;
 }
 
-const initChangeLog = milestoneNumber => OUTPUT.TITLE_1 + OUTPUT.CHANGE_LOG_INIT + milestoneNumber
+const initChangeLog = milestoneNumber => OUTPUT.CHANGE_LOG_INIT + milestoneNumber
 
 const issuesChangeLog = issue => {
     return {
-        title_changes_for_customer: OUTPUT.CHANGES_FOR_CUSTOMER + issue.customer,
-        title_changes_for_all: OUTPUT.CHANGES_FOR_ALL,
+        title_change_for_customer: OUTPUT.CHANGE_FOR_CUSTOMER + issue.customer,
+        title_change_for_all: OUTPUT.CHANGE_FOR_ALL,
         block_end: OUTPUT.SEPARATOR,
         issue_line: OUTPUT.NEWLINE + OUTPUT.LIST + issue.title + OUTPUT.ISSUE_NUMBER_START + issue.number + OUTPUT.ISSUE_NUMBER_END,
     };
@@ -62,10 +62,10 @@ const proccessLogs = params => {
         fetch_starts: OUTPUT.FETCH_MILESTONES_ISSUES + params.milestone + OUTPUT.DOTS + OUTPUT.NEWLINE,
         fetch_finished: OUTPUT.FETCHED_MILESTONES_ISSUES + params.milestone + OUTPUT.EXCLAMATION + OUTPUT.NEWLINE,
         fetch_failed: OUTPUT.FETCH_FAILED,
-        saved_file_changes_log: OUTPUT.SAVED_FILE_CHANGES_LOG,
+        saved_file_change_log: OUTPUT.SAVED_FILE_CHANGE_LOG,
         single_issues: OUTPUT.SINGLE_ISSUES + OUTPUT.NEWLINE,
-        starts_grouped_changes_log: OUTPUT.STARTED_GROUPED_CHANGES_LOG + params.filters,
-        starts_single_changes_log: OUTPUT.STARTED_SINGLE_CHANGES_LOG + OUTPUT.DOTS + OUTPUT.NEWLINE,
+        starts_grouped_change_log: OUTPUT.STARTED_GROUPED_CHANGE_LOG + params.filters,
+        starts_single_change_log: OUTPUT.STARTED_SINGLE_CHANGE_LOG + OUTPUT.DOTS + OUTPUT.NEWLINE,
         token_invalid: OUTPUT.TOKEN_INVALID,
     };
 };

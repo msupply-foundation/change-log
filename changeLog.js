@@ -1,7 +1,7 @@
 const octokit = require('./githubAPI/octokit');
 const commander = require('commander');
 const fs = require('fs');
-const { fetchIssuesInMilestone, generateChangesLog } = require('./helpers');
+const { fetchIssuesInMilestone, generateChangeLog } = require('./helpers');
 const { proccessLogs, TEXT_PATH } = require('./constants');
 
 const commaSeparatedList = value => value.split(',');
@@ -33,12 +33,12 @@ const fetchIssues = async () => {
       params.filters = filters;
       console.log(params.duplicateIssues ? proccessLogs(params).duplicate_issues : proccessLogs(params).single_issues);
     }
-    console.log(proccessLogs(params).starts_grouped_changes_log);
+    console.log(proccessLogs(params).starts_grouped_change_log);
     return groupedIssues;
   } else return [];
 }
 
-const asyncGenerateChangesLog = async () => {
+const asyncGenerateChangeLog = async () => {
   const isValidToken = await octokit.isValidToken();
   if (!isValidToken) {
     console.log(proccessLogs(params).token_invalid);
@@ -48,12 +48,12 @@ const asyncGenerateChangesLog = async () => {
   const issuesInMilestone = await fetchIssues();
   
   if(issuesInMilestone.length > 0) {
-    const changesLog = generateChangesLog(issuesInMilestone, params);
-    fs.writeFile(TEXT_PATH, changesLog, (err) => {
+    const changeLog = generateChangeLog(issuesInMilestone, params);
+    fs.writeFile(TEXT_PATH, changeLog, (err) => {
       if (err) throw err;
-      console.log(proccessLogs(params).saved_file_changes_log);
+      console.log(proccessLogs(params).saved_file_change_log);
     });
   } else console.log(proccessLogs(params).fetch_failed);
 }
 
-asyncGenerateChangesLog();
+asyncGenerateChangeLog();

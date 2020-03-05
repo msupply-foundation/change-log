@@ -1,1 +1,1 @@
-module.exports.TEXT_PATH = 'changesLog.txt';
+module.exports.TEXT_PATH = 'changeLog.txt';

@@ -1,7 +1,7 @@
 const { fetchIssuesInMilestone } = require('./issuesFilter');
-const { generateChangesLog } = require('./changesLogGenerator');
+const { generateChangeLog } = require('./changeLogGenerator');
 
 module.exports = {
   fetchIssuesInMilestone,
-  generateChangesLog
+  generateChangeLog
 }

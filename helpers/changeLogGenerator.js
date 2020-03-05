@@ -1,6 +1,6 @@
 const { getTitle, initChangeLog, issuesChangeLog } = require('../constants');
 
-const generateChangesLog = (groupIssues, {duplicateIssues, milestone}) => {
+const generateChangeLog = (groupIssues, {duplicateIssues, milestone}) => {
   
   let issuesNumbersIncluded = [];
   const isDuplicateIssue = (issue) => {
@@ -12,35 +12,35 @@ const generateChangesLog = (groupIssues, {duplicateIssues, milestone}) => {
    }
   }
 
-  let changesLog = initChangeLog(milestone);
+  let changeLog = initChangeLog(milestone);
 
   groupIssues.forEach(group => {
     const { issues, key, customer } = group;
     const { forCustomer, noCustomer } = issues;
 
     const title = getTitle(key);
-    if (title) changesLog += title;
+    if (title) changeLog += title;
 
     if (customer) {
-      changesLog += issuesChangeLog(group).title_changes_for_customer;
+      changeLog += issuesChangeLog(group).title_change_for_customer;
       forCustomer.forEach(issue=> {
         const addIssue = (duplicateIssues) ? true : isDuplicateIssue(issue);
-        if (addIssue) changesLog += issuesChangeLog(issue).issue_line;
+        if (addIssue) changeLog += issuesChangeLog(issue).issue_line;
       });
     }
     if (customer && noCustomer.length > 0 ){
-      changesLog += issuesChangeLog(group).title_changes_for_all;
+      changeLog += issuesChangeLog(group).title_change_for_all;
     }
 
     noCustomer.forEach(issue => {
        const addIssue = (duplicateIssues) ? true : isDuplicateIssue(issue);
-       if (addIssue) changesLog += issuesChangeLog(issue).issue_line;
+       if (addIssue) changeLog += issuesChangeLog(issue).issue_line;
      });
-     changesLog += issuesChangeLog(group).block_end;
+     changeLog += issuesChangeLog(group).block_end;
   });
-  return changesLog;
+  return changeLog;
 }
 
 module.exports = {
-  generateChangesLog
+  generateChangeLog
 };
