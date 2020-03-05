@@ -31,12 +31,9 @@ const fetchIssuesByFilter = async (octokit, params, group) => {
 }
 
 const fetchIssuesUsingParams = async (octokit, params) => {
-  const allIssues = [];
-  allIssues.push({
-    customer: params.customer,
-    issues: await fetchIssuesInMilestoneByFilters(octokit, params)
-  });
-  return allIssues;
+  const { customer } = params;
+  const issues = await fetchIssuesInMilestoneByFilters(octokit, params);
+  return [ { customer, issues } ]);
 }
 
 async function asyncForEach (array, octokit, params, callback) {
