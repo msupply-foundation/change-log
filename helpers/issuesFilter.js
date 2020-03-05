@@ -37,15 +37,13 @@ const fetchIssuesUsingParams = async (octokit, params) => {
 }
 
 async function asyncForEach (array, octokit, params, callback) {
-  const groupedIssues = [];
-  for (let index = 0; index < array.length; index++) {
-    groupedIssues.push({
-      key: array[index].trimLeft(),
-      customer: params.customer,
-      issues: await callback(octokit, params, array[index].trimLeft())
-    });
-  }
-  return groupedIssues;
+  const { customer } = params;
+  const issues = array.map(issue => issue.trimLeft());
+  return issues.map(issue => ({
+    key: issue,
+    customer,
+    issues: await callback(octokit, params, issue),
+  });
 }
 
 module.exports.fetchIssuesInMilestone = async function (octokit, params, filters) {
