@@ -46,11 +46,12 @@ const issuesChangeLog = issue => {
 }
 
 const logIssuesCount = (group) => {
-    const { forCustomer, noCustomer } = group.issues;
-    let logger = OUTPUT.ISSUES_TYPE + group.key + OUTPUT.NEWLINE;
-    if(group.customer) {
+    const { issues, key, customer } = group;
+    const { forCustomer, noCustomer } = issues;
+    let logger = OUTPUT.ISSUES_TYPE + key + OUTPUT.NEWLINE;
+    if(customer) {
         logger += noCustomer.length + OUTPUT.ISSUES_FOR_ALL_CUSTOMERS + OUTPUT.NEWLINE
-                + forCustomer.length + OUTPUT.ISSUES_FOR_CUSTOMER + group.customer + OUTPUT.NEWLINE;
+                + forCustomer.length + OUTPUT.ISSUES_FOR_CUSTOMER + customer + OUTPUT.NEWLINE;
     } else logger += OUTPUT.ISSUES_COUNT + noCustomer.length + OUTPUT.NEWLINE;
     return logger;
 }
