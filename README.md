@@ -13,7 +13,7 @@ Generates .txt files using Markdown notation with the "Change log" of the given 
 
 `node changeLog.js -m <number> -c "Customer: X` - By passing a customer will generate a change-log file for all the issues closed in the Milestone for that customer.
 
-Other default arguments can also send to change what issues are included:
- - -s Status: closed (Default), open or all
- - -d Duplicate Issues: false (Default) or true
- - -i Include Issue for All: true (Default) or false  
+Other default arguments can also change what issues are included:
+ - `-s` Status: `closed` (Default), `open` or `all`
+ - `-d` Duplicate Issues: `false` (Default) or `true`
+ - `-i` Include Issue for All: `true` (Default) or `false`  
